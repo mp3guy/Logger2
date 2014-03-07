@@ -15,7 +15,7 @@ Multiple threads are used for the frame grabbing, compression and GUI. A circula
 
 Supports disabling auto settings on the camera. 
 
-The binary format is specified in Logger::writeData() in Logger.cpp in [here](https://github.com/mp3guy/Logger1/blob/master/src/Logger.cpp)
+The binary format is specified in Logger::writeData() in Logger.cpp [here](https://github.com/mp3guy/Logger1/blob/master/src/Logger.cpp)
 
 <p align="center">
   <img src="http://mp3guy.github.io/img/Logger2.png" alt="Logger2"/>
