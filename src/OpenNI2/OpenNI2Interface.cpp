@@ -38,8 +38,6 @@ OpenNI2Interface::OpenNI2Interface(int inWidth, int inHeight, int fps)
         }
         else
         {
-            device.setProperty(XN_MODULE_PROPERTY_USB_INTERFACE, XN_SENSOR_USB_INTERFACE_ISO_ENDPOINTS);
-
             rc = depthStream.create(device, openni::SENSOR_DEPTH);
             if (rc == openni::STATUS_OK)
             {
@@ -83,8 +81,6 @@ OpenNI2Interface::OpenNI2Interface(int inWidth, int inHeight, int fps)
 
             if(initSuccessful)
             {
-                rgbStream.setProperty(XN_STREAM_PROPERTY_INPUT_FORMAT, XN_IO_IMAGE_FORMAT_UNCOMPRESSED_YUV422);
-
                 //For printing out
                 formatMap[openni::PIXEL_FORMAT_DEPTH_1_MM] = "1mm";
                 formatMap[openni::PIXEL_FORMAT_DEPTH_100_UM] = "100um";
