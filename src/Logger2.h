@@ -37,11 +37,12 @@
 
 #include "OpenNI2/OpenNI2Interface.h"
 #include "MemoryBuffer.h"
+#include "TcpHandler.h"
 
 class Logger2
 {
     public:
-        Logger2(int width, int height, int fps);
+        Logger2(int width, int height, int fps, bool tcp);
         virtual ~Logger2();
 
         void startWriting(std::string filename);
@@ -90,6 +91,9 @@ class Logger2
         int width;
         int height;
         int fps;
+
+        TcpHandler * tcp;
+        uint8_t * tcpBuffer;
 
         void encodeJpeg(cv::Vec<unsigned char, 3> * rgb_data);
         void loggingThread();

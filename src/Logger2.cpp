@@ -7,7 +7,7 @@
 
 #include "Logger2.h"
 
-Logger2::Logger2(int width, int height, int fps)
+Logger2::Logger2(int width, int height, int fps, bool tcp)
  : dropping(std::pair<bool, int64_t>(false, -1)),
    lastWritten(-1),
    writeThread(0),
@@ -27,6 +27,17 @@ Logger2::Logger2(int width, int height, int fps)
     writing.assignValue(false);
 
     openNI2Interface = new OpenNI2Interface(width, height, fps);
+
+    if(tcp)
+    {
+        tcpBuffer = (uint8_t *)malloc(depth_compress_buf_size + width * height * 3);
+        this->tcp = new TcpHandler(5698);
+    }
+    else
+    {
+        tcpBuffer = 0;
+        this->tcp = 0;
+    }
 }
 
 Logger2::~Logger2()
@@ -41,6 +52,12 @@ Logger2::~Logger2()
     }
 
     delete openNI2Interface;
+
+    if(tcp)
+    {
+        delete [] tcpBuffer;
+        delete tcp;
+    }
 }
 
 
@@ -171,6 +188,17 @@ void Logger2::loggingThread()
 
             depthData = (unsigned char *)openNI2Interface->frameBuffers[bufferIndex].first.first;
             rgbData = (unsigned char *)openNI2Interface->frameBuffers[bufferIndex].first.second;
+        }
+
+        if(tcp)
+        {
+            int * myMsg = (int *)&tcpBuffer[0];
+            myMsg[0] = encodedImage->width;
+
+            memcpy(&tcpBuffer[sizeof(int)], encodedImage->data.ptr, encodedImage->width);
+            memcpy(&tcpBuffer[sizeof(int) + encodedImage->width], depth_compress_buf, depthSize);
+
+            tcp->sendData(tcpBuffer, sizeof(int) + encodedImage->width + depthSize);
         }
 
         if(logToMemory)

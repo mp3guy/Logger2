@@ -31,19 +31,21 @@ int main(int argc, char **argv)
     int width = 640;
     int height = 480;
     int fps = 30;
+    int tcp = 0;
 
     parse_argument(argc, argv, "-w", width);
     parse_argument(argc, argv, "-h", height);
     parse_argument(argc, argv, "-f", fps);
+    tcp = find_argument(argc, argv, "-t") != -1;
 
-    MainWindow * window = new MainWindow(width, height, fps);
+    MainWindow * window = new MainWindow(width, height, fps, tcp);
 
     window->show();
 
     return app.exec();
 }
 
-MainWindow::MainWindow(int width, int height, int fps)
+MainWindow::MainWindow(int width, int height, int fps, bool tcp)
  : logger(0),
    depthImage(width, height, QImage::Format_RGB888),
    rgbImage(width, height, QImage::Format_RGB888),
@@ -51,7 +53,8 @@ MainWindow::MainWindow(int width, int height, int fps)
    lastDrawn(-1),
    width(width),
    height(height),
-   fps(fps)
+   fps(fps),
+   tcp(tcp)
 {
     this->setMaximumSize(width * 2, height + 160);
     this->setMinimumSize(width * 2, height + 160);
@@ -128,7 +131,7 @@ MainWindow::MainWindow(int width, int height, int fps)
 
     wrapperLayout->addLayout(buttonLayout);
 
-    startStop = new QPushButton("Record", this);
+    startStop = new QPushButton(tcp ? "Stream && Record" : "Record", this);
     connect(startStop, SIGNAL(clicked()), this, SLOT(recordToggle()));
     buttonLayout->addWidget(startStop);
 
@@ -289,7 +292,7 @@ void MainWindow::recordToggle()
         logger->stopWriting(this);
         memoryRecord->setEnabled(true);
         compressed->setEnabled(true);
-        startStop->setText("Record");
+        startStop->setText(tcp ? "Stream && Record" : "Record");
         recording = false;
         logFile->setText(QString::fromStdString(getNextFilename()));
     }
@@ -365,7 +368,7 @@ void MainWindow::timerCallback()
     {
         if(frameStats.size() >= 15)
         {
-            logger = new Logger2(width, height, fps);
+            logger = new Logger2(width, height, fps, tcp);
 
             if(!logger->getOpenNI2Interface()->ok())
             {
@@ -429,7 +432,7 @@ void MainWindow::timerCallback()
 
     painter->setPen(recording ? Qt::red : Qt::green);
     painter->setFont(QFont("Arial", 30));
-    painter->drawText(10, 50, recording ? "Recording" : "Viewing");
+    painter->drawText(10, 50, recording ? (tcp ? "Streaming & Recording" : "Recording") : "Viewing");
 
     frameStats.push_back(abs(logger->getOpenNI2Interface()->frameBuffers[bufferIndex].second - lastFrameTime));
 

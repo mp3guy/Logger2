@@ -48,7 +48,7 @@ class MainWindow : public QWidget
     Q_OBJECT;
 
     public:
-        MainWindow(int width, int height, int fps);
+        MainWindow(int width, int height, int fps, bool tcp);
         virtual ~MainWindow();
 
     private slots:
@@ -87,6 +87,7 @@ class MainWindow : public QWidget
         int width;
         int height;
         int fps;
+        bool tcp;
         std::vector<int64_t> frameStats;
         int64_t lastFrameTime;
 
