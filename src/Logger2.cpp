@@ -193,12 +193,12 @@ void Logger2::loggingThread()
         if(tcp)
         {
             int * myMsg = (int *)&tcpBuffer[0];
-            myMsg[0] = encodedImage->width;
+            myMsg[0] = rgbSize;
 
-            memcpy(&tcpBuffer[sizeof(int)], encodedImage->data.ptr, encodedImage->width);
-            memcpy(&tcpBuffer[sizeof(int) + encodedImage->width], depth_compress_buf, depthSize);
+            memcpy(&tcpBuffer[sizeof(int)], rgbData, rgbSize);
+            memcpy(&tcpBuffer[sizeof(int) + rgbSize], depthData, depthSize);
 
-            tcp->sendData(tcpBuffer, sizeof(int) + encodedImage->width + depthSize);
+            tcp->sendData(tcpBuffer, sizeof(int) + rgbSize + depthSize);
         }
 
         if(logToMemory)
