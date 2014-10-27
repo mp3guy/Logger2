@@ -17,6 +17,8 @@ Supports disabling auto settings on the camera.
 
 The binary format is specified in Logger2.h
 
+Run with -t to enable TCP streaming support on port 5698
+
 <p align="center">
   <img src="http://mp3guy.github.io/img/Logger2.png" alt="Logger2"/>
 </p>
