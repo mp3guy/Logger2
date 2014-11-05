@@ -24,7 +24,7 @@ If you get an error about not being able to connect to the device follow these i
 1. Find the idVendor and idProduct by running lsusb (with example output):
 
   $ lsusb
-  Bus 003 Device 006: ID <idVendorHere>:<idProductHere> ASUS
+  Bus 003 Device 006: ID \<idVendorHere\>:\<idProductHere\> ASUS
 
 2. Create a new usb rules file:
 
