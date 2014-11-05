@@ -23,19 +23,19 @@ If you get an error about not being able to connect to the device follow these i
 
 1. Find the idVendor and idProduct by running lsusb (with example output):
 
-$ lsusb
-Bus 003 Device 006: ID <idVendorHere>:<idProductHere> ASUS
+  $ lsusb
+  Bus 003 Device 006: ID <idVendorHere>:<idProductHere> ASUS
 
 2. Create a new usb rules file:
-$ sudo editor /etc/udev/rules.d/asus.rules
+  $ sudo editor /etc/udev/rules.d/asus.rules
 
 3. Paste in the below line with appropriate modifications (i.e. filling in the appropriate idVendor and idProduct listed above - 1d27 and 0601 for example):
 
-SUBSYSTEM=="usb", ATTR{idVendor}=="1d27", ATTR{idProduct}=="0601", GROUP="plugdev"
+  SUBSYSTEM=="usb", ATTR{idVendor}=="1d27", ATTR{idProduct}=="0601", GROUP="plugdev"
 
 4. Double check you are indeed in the plugdev group, or change the group above accordingly
 
-$ groups
+  $ groups
 
 5. Reboot to take effect
 
