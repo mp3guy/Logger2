@@ -50,6 +50,7 @@ set(CMAKE_EXE_LINKER_FLAGS "-Wl,-rpath,. -L${CMAKE_CURRENT_BINARY_DIR}")
 
 set(srcs main.cpp
          Logger2.cpp
+         Communicator.cpp
          ${CMAKE_CURRENT_SOURCE_DIR}/OpenNI2/OpenNI2Interface.cpp)
 
 add_executable(Logger2 ${main_moc_SRCS} ${srcs})

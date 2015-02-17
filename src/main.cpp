@@ -422,7 +422,11 @@ void MainWindow::timerCallback()
     }
 
     memcpy(&depthBuffer[0], logger->getOpenNI2Interface()->frameBuffers[bufferIndex].first.first, width * height * 2);
-    memcpy(rgbImage.bits(), logger->getOpenNI2Interface()->frameBuffers[bufferIndex].first.second, width * height * 3);
+    
+    if(!(tcp && recording))
+    {
+        memcpy(rgbImage.bits(), logger->getOpenNI2Interface()->frameBuffers[bufferIndex].first.second, width * height * 3);
+    }
 
     cv::Mat1w depth(height, width, (unsigned short *)&depthBuffer[0]);
     normalize(depth, tmp, 0, 255, cv::NORM_MINMAX, 0);
@@ -471,6 +475,21 @@ void MainWindow::timerCallback()
 
     painter->drawText(10, height - offset, QString::fromStdString(str.str()));
 
+    if(tcp)
+    {
+        cv::Mat3b modelImg(height / 4, width / 4);
+        cv::Mat3b modelImgBig(height, width, (cv::Vec<unsigned char, 3> *)rgbImage.bits());
+        std::string dataStr = comms.tryRecv();
+        
+        if(dataStr.length())
+        {
+            std::vector<char> data(dataStr.begin(), dataStr.end());
+            modelImg = cv::imdecode(cv::Mat(data), 1);
+            cv::Size bigSize(width, height);
+            cv::resize(modelImg, modelImgBig, bigSize, 0, 0);
+        }
+    }
+
     depthLabel->setPixmap(QPixmap::fromImage(depthImage));
     imageLabel->setPixmap(QPixmap::fromImage(rgbImage));
 
@@ -486,7 +505,7 @@ void MainWindow::timerCallback()
 
     std::pair<bool, int64_t> dropping = logger->dropping.getValue();
 
-    if(dropping.first)
+    if(!tcp && dropping.first)
     {
         assert(recording);
         recordToggle();

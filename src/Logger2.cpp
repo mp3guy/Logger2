@@ -224,7 +224,7 @@ void Logger2::loggingThread()
 
         if(lastTimestamp != -1)
         {
-            if(openNI2Interface->frameBuffers[bufferIndex].second - lastTimestamp > 100000)
+            if(openNI2Interface->frameBuffers[bufferIndex].second - lastTimestamp > 1000000)
             {
                 dropping.assignValue(std::pair<bool, int64_t>(true, openNI2Interface->frameBuffers[bufferIndex].second - lastTimestamp));
             }

@@ -42,6 +42,7 @@
 #include <boost/filesystem.hpp>
 
 #include "Logger2.h"
+#include "Communicator.h"
 
 class MainWindow : public QWidget
 {
@@ -64,6 +65,7 @@ class MainWindow : public QWidget
 
     private:
         Logger2 * logger;
+        Communicator comms;
         QImage depthImage;
         QImage rgbImage;
         bool recording;
