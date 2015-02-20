@@ -54,7 +54,8 @@ MainWindow::MainWindow(int width, int height, int fps, bool tcp)
    width(width),
    height(height),
    fps(fps),
-   tcp(tcp)
+   tcp(tcp), 
+   comms(tcp ? new Communicator : 0)
 {
     this->setMaximumSize(width * 2, height + 160);
     this->setMinimumSize(width * 2, height + 160);
@@ -479,7 +480,7 @@ void MainWindow::timerCallback()
     {
         cv::Mat3b modelImg(height / 4, width / 4);
         cv::Mat3b modelImgBig(height, width, (cv::Vec<unsigned char, 3> *)rgbImage.bits());
-        std::string dataStr = comms.tryRecv();
+        std::string dataStr = comms->tryRecv();
         
         if(dataStr.length())
         {

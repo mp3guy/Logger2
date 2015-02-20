@@ -65,7 +65,6 @@ class MainWindow : public QWidget
 
     private:
         Logger2 * logger;
-        Communicator comms;
         QImage depthImage;
         QImage rgbImage;
         bool recording;
@@ -90,6 +89,7 @@ class MainWindow : public QWidget
         int height;
         int fps;
         bool tcp;
+        Communicator * comms;
         std::vector<int64_t> frameStats;
         int64_t lastFrameTime;
 
