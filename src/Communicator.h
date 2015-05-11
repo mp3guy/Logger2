@@ -20,6 +20,11 @@
 #include <unistd.h>
 #include <iostream>
 
+#ifndef SOCK_NONBLOCK
+#include <fcntl.h>
+#define SOCK_NONBLOCK O_NONBLOCK
+#endif
+
 class Communicator
 {
     public:

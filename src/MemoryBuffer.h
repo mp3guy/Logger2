@@ -32,7 +32,7 @@
 #include <mach/mach_init.h>
 #include <mach/mach_host.h>
 #include <mach/task_info.h>
-#include <mach/x86_64/task.h>
+#include <mach/task.h>
 #endif
 #else
 #include <windows.h>

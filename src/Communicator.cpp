@@ -73,7 +73,11 @@ std::string Communicator::getBroadcastAddress()
     {
         if(ifa->ifa_addr->sa_family == AF_INET && !strcmp(ifa->ifa_name, broadcast.c_str()))
         {
+#if defined __APPLE__ && defined __MACH__
+            sa = (struct sockaddr_in *) ifa->ifa_broadaddr;
+#else
             sa = (struct sockaddr_in *) ifa->ifa_ifu.ifu_broadaddr;
+#endif
             std::string addr(inet_ntoa(sa->sin_addr));
             freeifaddrs(ifap);
             std::cout << "Got broadcast address: " << addr << std::endl;
