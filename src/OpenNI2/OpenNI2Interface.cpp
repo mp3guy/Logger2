@@ -38,9 +38,20 @@ OpenNI2Interface::OpenNI2Interface(int inWidth, int inHeight, int fps)
         }
         else
         {
+            openni::VideoMode depthMode;
+            depthMode.setFps(fps);
+            depthMode.setPixelFormat(openni::PIXEL_FORMAT_DEPTH_1_MM);
+            depthMode.setResolution(width, height);
+
+            openni::VideoMode colorMode;
+            colorMode.setFps(fps);
+            colorMode.setPixelFormat(openni::PIXEL_FORMAT_RGB888);
+            colorMode.setResolution(width, height);
+
             rc = depthStream.create(device, openni::SENSOR_DEPTH);
             if (rc == openni::STATUS_OK)
             {
+                depthStream.setVideoMode(depthMode);
                 rc = depthStream.start();
                 if (rc != openni::STATUS_OK)
                 {
@@ -58,6 +69,7 @@ OpenNI2Interface::OpenNI2Interface(int inWidth, int inHeight, int fps)
             rc = rgbStream.create(device, openni::SENSOR_COLOR);
             if (rc == openni::STATUS_OK)
             {
+                rgbStream.setVideoMode(colorMode);
                 rc = rgbStream.start();
                 if (rc != openni::STATUS_OK)
                 {
@@ -95,28 +107,6 @@ OpenNI2Interface::OpenNI2Interface(int inWidth, int inHeight, int fps)
 
                 assert(findMode(width, height, fps) && "Sorry, mode not supported!");
 
-                openni::VideoMode depthMode;
-                depthMode.setFps(fps);
-                depthMode.setPixelFormat(openni::PIXEL_FORMAT_DEPTH_1_MM);
-                depthMode.setResolution(width, height);
-
-                openni::VideoMode colorMode;
-                colorMode.setFps(fps);
-                colorMode.setPixelFormat(openni::PIXEL_FORMAT_RGB888);
-                colorMode.setResolution(width, height);
-
-                depthStream.setVideoMode(depthMode);
-                rgbStream.setVideoMode(colorMode);
-
-                depthStream.setMirroringEnabled(false);
-                rgbStream.setMirroringEnabled(false);
-
-                device.setDepthColorSyncEnabled(true);
-                device.setImageRegistrationMode(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR);
-
-                setAutoExposure(false);
-                setAutoWhiteBalance(false);
-
                 latestDepthIndex.assignValue(-1);
                 latestRgbIndex.assignValue(-1);
 
@@ -142,6 +132,15 @@ OpenNI2Interface::OpenNI2Interface(int inWidth, int inHeight, int fps)
                                                   latestRgbIndex,
                                                   rgbBuffers,
                                                   frameBuffers);
+
+                depthStream.setMirroringEnabled(false);
+                rgbStream.setMirroringEnabled(false);
+
+                device.setDepthColorSyncEnabled(true);
+                device.setImageRegistrationMode(openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR);
+
+                setAutoExposure(false);
+                setAutoWhiteBalance(false);
 
                 rgbStream.addNewFrameListener(rgbCallback);
                 depthStream.addNewFrameListener(depthCallback);
