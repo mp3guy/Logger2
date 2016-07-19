@@ -28,6 +28,7 @@
 
 #include <opencv2/opencv.hpp>
 
+#ifndef Q_MOC_RUN
 #include <boost/format.hpp>
 #include <boost/thread.hpp>
 #include <boost/lexical_cast.hpp>
@@ -38,6 +39,7 @@
 #include "OpenNI2/OpenNI2Interface.h"
 #include "MemoryBuffer.h"
 #include "TcpHandler.h"
+#endif
 
 class Logger2
 {
