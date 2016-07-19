@@ -38,8 +38,11 @@
 #include <iomanip>
 #include <iostream>
 #include <math.h>
+
+#ifndef Q_MOC_RUN
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/filesystem.hpp>
+#endif
 
 #include "Logger2.h"
 #include "Communicator.h"
