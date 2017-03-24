@@ -38,9 +38,13 @@
 
 #include "OpenNI2/CameraInterface.h"
 #include "OpenNI2/OpenNI2Interface.h"
-#include "OpenNI2/RealSenseInterface.h"
 #include "MemoryBuffer.h"
 #include "TcpHandler.h"
+
+#ifdef WITH_REALSENSE
+#include "OpenNI2/RealSenseInterface.h"
+#endif
+
 #endif
 
 class Logger2
@@ -54,7 +58,7 @@ class Logger2
 
 	CameraInterface * getOpenNI2Interface()
 	{
-	    return openNI2Interface;
+	    return cameraInterface;
 	}
 
         MemoryBuffer & getMemoryBuffer()
@@ -80,7 +84,7 @@ class Logger2
 
     private:
 
-	CameraInterface * openNI2Interface;
+	CameraInterface * cameraInterface;
 
         MemoryBuffer memoryBuffer;
 
