@@ -26,7 +26,8 @@ set(CMAKE_CXX_FLAGS "-std=gnu++0x -O3 -msse2 -msse3")
 if(WITH_REALSENSE)
     include_directories(${REALSENSE_INCLUDE_DIR})
     add_definitions(-DWITH_REALSENSE)
-    set(EXTRA_LIBS ${EXTRA_LIBS} ${REALSENSE_LIBRARY})
+    set(EXTRA_LIBS ${EXTRA_LIBS} /usr/local/lib/librealsense.so)
+    message(STATUS "EXTRA_LIBS: " ${EXTRA_LIBS})
 endif()
 
 #Magic hack to check if host is 32 or 64 bit
@@ -58,10 +59,13 @@ set(srcs main.cpp
 
 add_executable(Logger2 ${main_moc_SRCS} ${srcs})
 
+message(STATUS "OpenCV_LIBS = " ${OpenCV_LIBS})
+
 target_link_libraries(Logger2                       
                       ${ZLIB_LIBRARY}
                       ${Boost_LIBRARIES}
                       ${OpenCV_LIBS} 
+		      ${EXTRA_LIBS}
                       ${QT_LIBRARIES}
                       boost_system
                       boost_filesystem
