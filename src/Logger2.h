@@ -36,9 +36,15 @@
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/thread/condition_variable.hpp>
 
+#include "OpenNI2/CameraInterface.h"
 #include "OpenNI2/OpenNI2Interface.h"
 #include "MemoryBuffer.h"
 #include "TcpHandler.h"
+
+#ifdef WITH_REALSENSE
+#include "OpenNI2/RealSenseInterface.h"
+#endif
+
 #endif
 
 class Logger2
@@ -50,10 +56,10 @@ class Logger2
         void startWriting(std::string filename);
         void stopWriting(QWidget * parent);
 
-        OpenNI2Interface * getOpenNI2Interface()
-        {
-            return openNI2Interface;
-        }
+	CameraInterface * getOpenNI2Interface()
+	{
+	    return cameraInterface;
+	}
 
         MemoryBuffer & getMemoryBuffer()
         {
@@ -77,7 +83,9 @@ class Logger2
         ThreadMutexObject<std::pair<bool, int64_t> > dropping;
 
     private:
-        OpenNI2Interface * openNI2Interface;
+
+	CameraInterface * cameraInterface;
+
         MemoryBuffer memoryBuffer;
 
         int depth_compress_buf_size;
