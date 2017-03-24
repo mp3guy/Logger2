@@ -20,8 +20,8 @@ RealSenseInterface::RealSenseInterface(int inWidth,int inHeight,int inFps)
   dev->enable_stream(rs::stream::depth,width,height,rs::format::z16,fps);
   dev->enable_stream(rs::stream::color,width,height,rs::format::rgb8,fps);
 
-  latestDepthIndex.assign(-1);
-  latestRgbIndex.assign(-1);
+  latestDepthIndex.assignValue(-1);
+  latestRgbIndex.assignValue(-1);
 
   for(int i = 0; i < numBuffers; i++)
   {
