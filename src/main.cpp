@@ -410,7 +410,7 @@ void MainWindow::timerCallback()
         return;
     }
 
-    int bufferIndex = lastDepth % OpenNI2Interface::numBuffers;
+    int bufferIndex = lastDepth % CameraInterface::numBuffers;
 
     if(bufferIndex == lastDrawn)
     {
