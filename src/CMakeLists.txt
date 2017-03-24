@@ -27,6 +27,12 @@ set(BOOST_ALL_DYN_LINK ON)   # force dynamic linking for all libraries
 
 set(CMAKE_CXX_FLAGS "-O3 -msse2 -msse3")
 
+if(WITH_REALSENSE)
+    include_directories(${REALSENSE_INCLUDE_DIR})
+    add_definitions(-DWITH_REALSENSE)
+    set(EXTRA_LIBS ${EXTRA_LIBS} ${REALSENSE_LIBRARY})
+endif()
+
 #Magic hack to check if host is 32 or 64 bit
 if(APPLE)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/OpenNI2/libOpenNI2.dylib ${CMAKE_CURRENT_BINARY_DIR}/libOpenNI2.dylib COPYONLY)
