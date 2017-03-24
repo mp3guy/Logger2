@@ -26,7 +26,11 @@ Logger2::Logger2(int width, int height, int fps, bool tcp)
 
     writing.assignValue(false);
 
+#ifdef WITH_REALSENSE
+    openNI2Interface = new RealSenseInterface(width, height, fps);
+#else
     openNI2Interface = new OpenNI2Interface(width, height, fps);
+#endif
 
     if(tcp)
     {
