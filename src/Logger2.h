@@ -51,17 +51,10 @@ class Logger2
         void startWriting(std::string filename);
         void stopWriting(QWidget * parent);
 
-#ifdef WITH_REALSENSE
-	RealSenseInterface * getOpenNI2Interface()
+	CameraInterface * getOpenNI2Interface()
 	{
 	    return openNI2Interface;
 	}
-#else
-        OpenNI2Interface * getOpenNI2Interface()
-        {
-            return openNI2Interface;
-        }
-#endif
 
         MemoryBuffer & getMemoryBuffer()
         {
@@ -85,11 +78,8 @@ class Logger2
         ThreadMutexObject<std::pair<bool, int64_t> > dropping;
 
     private:
-#ifdef WITH_REALSENSE
-	RealSenseInterface * openNI2Interface;
-#else
-        OpenNI2Interface * openNI2Interface;
-#endif
+
+	CameraInterface * openNI2Interface;
 
         MemoryBuffer memoryBuffer;
 

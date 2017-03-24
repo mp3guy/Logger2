@@ -151,7 +151,8 @@ void Logger2::loggingThread()
             continue;
         }
 
-        int bufferIndex = lastDepth % OpenNI2Interface::numBuffers;
+	
+        int bufferIndex = lastDepth % CameraInterface::numBuffers;
 
         if(bufferIndex == lastWritten)
         {
