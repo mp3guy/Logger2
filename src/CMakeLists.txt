@@ -12,10 +12,6 @@ include(${QT_USE_FILE})
 qt4_wrap_cpp(main_moc_SRCS
              main.h)
 
-IF(UNIX)
-    set(CMAKE_CXX_FLAGS "-O3 -msse2 -msse3")
-ENDIF (UNIX)
-
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/OpenNI2/Include)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(${ZLIB_INCLUDE_DIR})
@@ -25,7 +21,7 @@ set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 set(BOOST_ALL_DYN_LINK ON)   # force dynamic linking for all libraries
 
-set(CMAKE_CXX_FLAGS "-O3 -msse2 -msse3")
+set(CMAKE_CXX_FLAGS "-std=gnu++0x -O3 -msse2 -msse3")
 
 if(WITH_REALSENSE)
     include_directories(${REALSENSE_INCLUDE_DIR})
