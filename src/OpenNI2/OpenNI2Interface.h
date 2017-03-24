@@ -23,7 +23,7 @@
 #define OPENNI2INTERFACE_H_
 
 
-class OpenNI2Interface
+class OpenNI2Interface : public CameraInterface
 {
     public:
         OpenNI2Interface(int inWidth = 640, int inHeight = 480, int fps = 30);
@@ -33,17 +33,17 @@ class OpenNI2Interface
 
         void printModes();
         bool findMode(int x, int y, int fps);
-        void setAutoExposure(bool value);
-        void setAutoWhiteBalance(bool value);
+        virtual void setAutoExposure(bool value);
+        virtual void setAutoWhiteBalance(bool value);
         bool getAutoExposure();
         bool getAutoWhiteBalance();
 
-        bool ok()
+        virtual bool ok()
         {
             return initSuccessful;
         }
 
-        std::string error()
+        virtual std::string error()
         {
             errorText.erase(std::remove_if(errorText.begin(), errorText.end(), &OpenNI2Interface::isTab), errorText.end());
             return errorText;
