@@ -37,6 +37,7 @@
 #include <boost/thread/condition_variable.hpp>
 
 #include "OpenNI2/OpenNI2Interface.h"
+#include "OpenNI2/RealSenseInterface.h"
 #include "MemoryBuffer.h"
 #include "TcpHandler.h"
 #endif
