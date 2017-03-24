@@ -36,6 +36,7 @@
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/thread/condition_variable.hpp>
 
+#include "OpenNI2/CameraInterface.h"
 #include "OpenNI2/OpenNI2Interface.h"
 #include "OpenNI2/RealSenseInterface.h"
 #include "MemoryBuffer.h"
